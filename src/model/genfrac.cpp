@@ -22,6 +22,16 @@ iterData genFrac::checkPixel(double x, double y) {
     return currData;
 }
 
+void genFrac::changeTrueRange(double x, double y) {
+    trueXBounds = x;
+    trueYBounds = y;
+    xScale = (double)(trueXBounds*2)/(double)(width-1);
+    yScale = (double)(trueYBounds*2)/(double)(height-1);
+    yOffset = -(double)(height-1)/2;
+    xOffset = -(double)(width-1)/2;
+}
+
+
 iterData* genFrac::checkRange() {
     //new avoids malloc
     iterData* tiles = new iterData [width*height];

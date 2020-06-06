@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
-#include <view/gui.hpp>
 #include <model/genfrac.cpp>
+#include <view/gui.hpp>
 
 #define WIDTH 640
 #define HEIGHT 480

@@ -7,8 +7,8 @@
 #IncludeRegexTransform: 
 
 /home/garnet/Desktop/Programming/fractle/mandlebrot/src/view/gui.cpp
-view/gui.hpp
--
+gui.hpp
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/view/gui.hpp
 chrono
 -
 iostream
@@ -18,13 +18,7 @@ cmath
 model/genfrac.hpp
 -
 
-src/model/genfrac.hpp
-vector
-src/model/vector
-complex
--
-
-src/view/gui.hpp
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/view/gui.hpp
 SDL2/SDL.h
 -
 SDL2/SDL_image.h
@@ -32,5 +26,11 @@ SDL2/SDL_image.h
 SDL2/SDL_timer.h
 -
 model/genfrac.hpp
+-
+
+src/model/genfrac.hpp
+vector
+src/model/vector
+complex
 -
 

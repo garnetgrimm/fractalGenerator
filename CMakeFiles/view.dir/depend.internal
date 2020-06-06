@@ -3,5 +3,5 @@
 
 CMakeFiles/view.dir/src/view/gui.cpp.o
  /home/garnet/Desktop/Programming/fractle/mandlebrot/src/view/gui.cpp
+ /home/garnet/Desktop/Programming/fractle/mandlebrot/src/view/gui.hpp
  src/model/genfrac.hpp
- src/view/gui.hpp

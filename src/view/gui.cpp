@@ -1,4 +1,4 @@
-#include <view/gui.hpp>
+#include "gui.hpp"
 #include <chrono>
 #include <iostream>
 #include <cmath>
@@ -19,10 +19,42 @@ void GUI::drawRect(float x, float y, float width, float height, uint32_t color, 
   SDL_RenderFillRect(rend, &rect);
 }
 
+void GUI::drawFract(genFrac* gf) {
+
+      gf->changeTrueRange(1,1);
+
+      gf->bail = 100;
+      iterData* dataR = gf->checkRange();
+      gf->bail = 100;
+      iterData* dataG = gf->checkRange();
+      gf->bail = 100;
+      iterData* dataB = gf->checkRange();
+
+      for(int row = 0; row < WIDTH; row++) {
+        for(int col = 0; col < HEIGHT; col++) {
+          iterData* currR = &dataR[row*HEIGHT + col];
+
+          //uint32_t c = dataG[row*(WIDTH) + col].inSet ? 0xfcfbfe : 0x000000;
+          //drawRect(col,row, 1, 1, c, 255);
+
+          drawRect(currR->startCords.real(), currR->startCords.imag(), 1, 1, 0xFFFFFF, (255*currR->pointsVisited.size())/255);
+          
+          for(complex<double> cd : dataB[row*HEIGHT + col].pointsVisited) {
+            drawRect(cd.real(), cd.imag(), 1, 1, 0xedf252, 6);
+          }
+          
+          for(complex<double> cd : dataG[row*HEIGHT + col].pointsVisited) {
+            drawRect(cd.real(), cd.imag(), 1, 1, 0x0c164f, 15);
+          }
+        }
+      }
+
+}
 
 void GUI::initWindow() {
 
-      genFrac gf(WIDTH, HEIGHT);
+      double xBound = 2;
+      double yBound = 2;
 
       // retutns zero on success else non-zero
       if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -37,33 +69,10 @@ void GUI::initWindow() {
 
       // clears the screen
       SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
-      SDL_RenderClear(rend);
+      SDL_RenderClear(rend);      
 
-      gf.bail = 100;
-      iterData* dataR = gf.checkRange();
-      gf.bail = 100;
-      iterData* dataG = gf.checkRange();
-      gf.bail = 100;
-      iterData* dataB = gf.checkRange();
-        
-      for(int row = 0; row < WIDTH; row++) {
-        for(int col = 0; col < HEIGHT; col++) {
-          iterData* currR = &dataR[row*HEIGHT + col];
-
-          //uint32_t c = dataG[row*(WIDTH) + col].inSet ? 0xfcfbfe : 0x000000;
-          //drawRect(col,row, 1, 1, c, 255);
-
-          drawRect(currR->startCords.real(), currR->startCords.imag(), 1, 1, 0xfcfbfe, (100*currR->pointsVisited.size())/255);
-          
-          for(complex<double> cd : dataB[row*HEIGHT + col].pointsVisited) {
-            drawRect(cd.real(), cd.imag(), 1, 1, 0xedf252, 6);
-          }
-          
-          for(complex<double> cd : dataG[row*HEIGHT + col].pointsVisited) {
-            drawRect(cd.real(), cd.imag(), 1, 1, 0x0c164f, 15);
-          }
-        }
-      }
+      genFrac gf(WIDTH,HEIGHT);
+      drawFract(&gf);
 
       SDL_Surface *sshot = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
       SDL_RenderReadPixels(rend, NULL, SDL_PIXELFORMAT_ARGB8888, sshot->pixels, sshot->pitch);
@@ -86,6 +95,17 @@ void GUI::initWindow() {
               case SDL_QUIT:
                   // handling of close button
                   running = false;
+                  break;
+              case SDL_MOUSEWHEEL:
+                  if(yBound <= 1) yBound *= pow(2, event.wheel.y);
+                  else {
+                    yBound += event.wheel.y;
+                  }
+                  /*gf.changeTrueRange(yBound,yBound);
+                  SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
+                  SDL_RenderClear(rend);
+                  drawFract(&gf);
+                  SDL_RenderPresent(rend);*/
                   break;
               case SDL_MOUSEBUTTONDOWN:
 								switch(event.button.button) {

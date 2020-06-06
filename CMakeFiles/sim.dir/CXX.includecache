@@ -11,9 +11,9 @@ iostream
 -
 thread
 -
-view/gui.hpp
--
 model/genfrac.cpp
+-
+view/gui.hpp
 -
 
 src/model/genfrac.cpp

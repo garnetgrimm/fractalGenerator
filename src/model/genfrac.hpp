@@ -15,18 +15,25 @@ class iterData {
 };
 
 class genFrac {
-    int width;
-    int height;
     public:
         int bail = 100;
+        genFrac();
         genFrac(int width, int height):
             width(width),
             height(height)
-        {}
-        double xScale = (double)4/(double)(width-1);
-        double yScale = (double)4/(double)(height-1);
-        double yOffset = -(double)(height-1)/2;
-        double xOffset = -(double)(width-1)/2;
+        {
+            changeTrueRange(trueXBounds,trueYBounds);
+        }
+        double yOffset;
+        double xOffset;
         iterData checkPixel(double x, double y);
         iterData* checkRange();
+        void changeTrueRange(double x, double y);
+    private:
+        double trueXBounds = 0.5;
+        double trueYBounds = 0.5;
+        double xScale;
+        double yScale;
+        int width;
+        int height;
 };

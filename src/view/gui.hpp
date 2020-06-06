@@ -23,6 +23,7 @@ public:
   bool running;
 private:
   SDL_Renderer* rend;
+  void drawFract(genFrac* gf);
   void drawRect(float x, float y, float width, float height, uint32_t color, uint8_t alpha);
 };
 
