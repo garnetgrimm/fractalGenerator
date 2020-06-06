@@ -22,10 +22,7 @@ void GUI::drawRect(float x, float y, float width, float height, uint32_t color, 
 
 void GUI::initWindow() {
 
-      double xScale = (double)4/(double)(WIDTH-1);
-      double yScale = (double)4/(double)(HEIGHT-1);
-      double yOffset = -(double)(HEIGHT-1)/2;
-      double xOffset = -(double)(WIDTH-1)/2;
+      genFrac gf(WIDTH, HEIGHT);
 
       // retutns zero on success else non-zero
       if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -42,33 +39,28 @@ void GUI::initWindow() {
       SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
       SDL_RenderClear(rend);
 
-      bail = 5000;
-      iterData* dataR = checkRange(WIDTH,HEIGHT);
-      bail = 1000;
-      iterData* dataG = checkRange(WIDTH,HEIGHT);
-      bail = 100;
-      iterData* dataB = checkRange(WIDTH,HEIGHT);
+      gf.bail = 100;
+      iterData* dataR = gf.checkRange();
+      gf.bail = 100;
+      iterData* dataG = gf.checkRange();
+      gf.bail = 100;
+      iterData* dataB = gf.checkRange();
         
-      for(int row = 0; row < WIDTH-1; row++) {
-        for(int col = 0; col < HEIGHT-1; col++) {
-    
+      for(int row = 0; row < WIDTH; row++) {
+        for(int col = 0; col < HEIGHT; col++) {
+          iterData* currR = &dataR[row*HEIGHT + col];
+
           //uint32_t c = dataG[row*(WIDTH) + col].inSet ? 0xfcfbfe : 0x000000;
           //drawRect(col,row, 1, 1, c, 255);
 
-          double x = (dataR[row*HEIGHT + col].startCords.real())/(xScale)-xOffset;
-          double y = (dataR[row*HEIGHT  + col].startCords.imag()/(yScale))-yOffset;
-          drawRect(x, y, 1, 1, 0xfcfbfe, ((float)20*dataR[row*HEIGHT + col].pointsVisited.size())/(float)255);
+          drawRect(currR->startCords.real(), currR->startCords.imag(), 1, 1, 0xfcfbfe, (100*currR->pointsVisited.size())/255);
           
           for(complex<double> cd : dataB[row*HEIGHT + col].pointsVisited) {
-            double x = (cd.real())/(xScale)-xOffset;
-            double y = (cd.imag()/(yScale))-yOffset;
-            drawRect(x, y, 1, 1, 0x5643fd, 5);
+            drawRect(cd.real(), cd.imag(), 1, 1, 0xedf252, 6);
           }
           
           for(complex<double> cd : dataG[row*HEIGHT + col].pointsVisited) {
-            double x = (cd.real())/(xScale)-xOffset;
-            double y = (cd.imag()/(yScale))-yOffset;
-            drawRect(x, y, 1, 1, 0x0c164f, 5);
+            drawRect(cd.real(), cd.imag(), 1, 1, 0x0c164f, 15);
           }
         }
       }
@@ -98,9 +90,9 @@ void GUI::initWindow() {
               case SDL_MOUSEBUTTONDOWN:
 								switch(event.button.button) {
 									case SDL_BUTTON_LEFT:
-                      double cx = event.button.y*yScale+(yOffset*yScale);
-                      double cy = event.button.x*xScale+(xOffset*xScale);
-									  	cout << cx << " " << cy << endl;
+                      //double cx = event.button.y*yScale+(yOffset*yScale);
+                      //double cy = event.button.x*xScale+(xOffset*xScale);
+									  	//cout << cx << " " << cy << endl;
 										break;
                 }
             }

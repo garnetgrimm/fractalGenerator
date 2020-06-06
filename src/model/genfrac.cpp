@@ -2,30 +2,27 @@
 #include <iostream>
 #include <math.h>
 
-iterData checkPixel(double x, double y) {
+iterData genFrac::checkPixel(double x, double y) {
     complex<double> firstCords(x,y);
     complex<double> newCords(x,y);
+    complex<double> scaledCords((newCords.real()/xScale)-xOffset,(newCords.imag()/yScale)-yOffset);
     iterData currData;
     currData.inSet = true;
-    currData.startCords = firstCords;
+    currData.startCords = scaledCords;
     for(int i = 0; i < bail; i++) {
         if(newCords.real()*newCords.real()+newCords.imag()*newCords.imag() > 2*2) {
             currData.inSet = false;
             break;
         } else {
-            currData.pointsVisited.push_back(newCords);
+            scaledCords = complex<double>((newCords.real()/xScale)-xOffset,(newCords.imag()/yScale)-yOffset);
+            currData.pointsVisited.push_back(scaledCords);
             newCords = newCords*newCords + firstCords;
         }
     }
     return currData;
 }
 
-iterData* checkRange(int width, int height) {
-    double xScale = (double)4/(double)(width-1);
-    double yScale = (double)4/(double)(height-1);
-    double yOffset = -(double)(height-1)/2;
-    double xOffset = -(double)(width-1)/2;
-
+iterData* genFrac::checkRange() {
     //new avoids malloc
     iterData* tiles = new iterData [width*height];
     for(int row = 0; row < height; row++) {

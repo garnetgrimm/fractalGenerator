@@ -5,8 +5,6 @@
 
 using namespace std;
 
-static int bail = 100;
-
 class iterData {
     public:
         iterData():
@@ -16,5 +14,19 @@ class iterData {
         vector<complex<double>> pointsVisited;
 };
 
-iterData checkPixel(double x, double y);
-iterData* checkRange(int width, int height);
+class genFrac {
+    int width;
+    int height;
+    public:
+        int bail = 100;
+        genFrac(int width, int height):
+            width(width),
+            height(height)
+        {}
+        double xScale = (double)4/(double)(width-1);
+        double yScale = (double)4/(double)(height-1);
+        double yOffset = -(double)(height-1)/2;
+        double xOffset = -(double)(width-1)/2;
+        iterData checkPixel(double x, double y);
+        iterData* checkRange();
+};
