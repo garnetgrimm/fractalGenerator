@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/model/genfrac.cpp
+genfrac.hpp
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/model/genfrac.hpp
+iostream
+-
+math.h
+-
+
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/model/genfrac.hpp
+vector
+/home/garnet/Desktop/Programming/fractle/mandlebrot/src/model/vector
+complex
+-
+

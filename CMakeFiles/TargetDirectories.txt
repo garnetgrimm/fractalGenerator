@@ -1,0 +1,5 @@
+/home/garnet/Desktop/Programming/fractle/mandlebrot/CMakeFiles/rebuild_cache.dir
+/home/garnet/Desktop/Programming/fractle/mandlebrot/CMakeFiles/edit_cache.dir
+/home/garnet/Desktop/Programming/fractle/mandlebrot/CMakeFiles/view.dir
+/home/garnet/Desktop/Programming/fractle/mandlebrot/CMakeFiles/sim.dir
+/home/garnet/Desktop/Programming/fractle/mandlebrot/CMakeFiles/model.dir

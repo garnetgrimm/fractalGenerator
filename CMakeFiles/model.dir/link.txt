@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmodel.a  CMakeFiles/model.dir/src/model/genfrac.cpp.o
+/usr/bin/ranlib libmodel.a

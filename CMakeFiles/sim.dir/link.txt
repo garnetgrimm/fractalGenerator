@@ -1,0 +1,1 @@
+clang++   -std=c++11 -pthread  -rdynamic CMakeFiles/sim.dir/src/main.cpp.o  -o sim -lSDL2 -lSDL2_image libmodel.a libview.a 
