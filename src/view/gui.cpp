@@ -20,41 +20,30 @@ void GUI::drawRect(float x, float y, float width, float height, uint32_t color, 
 }
 
 void GUI::drawFract(genFrac* gf) {
+      for(chunk currChunk : gf->chunk_map) {
+        double stepX = (currChunk.stepX*localXScale);
+        double stepY = (currChunk.stepY*localYScale);
+        //cout << stepX << " " << stepY << endl;
+        for(int i = 0; i < (currChunk.detail*currChunk.detail)-1; i++) {
+          iterData* currData = &currChunk.data[i];
+          iterData* nextData = &currChunk.data[i+1];
+          /*for(complex<double> cd : currData->pointsVisited) {
+            int xLoc = (cd.real()*localXScale)+(WIDTH/2);
+            int yLoc = (cd.imag()*localYScale)+(HEIGHT/2);
+            drawRect(xLoc, yLoc, stepX, stepY, 0xedf252, 1);
+          }*/
+          int xLoc = (currData->startCords.real()*localXScale)+(WIDTH/2);
+          int yLoc = (currData->startCords.imag()*localYScale)+(HEIGHT/2);
 
-      gf->changeTrueRange(1,1);
-
-      gf->bail = 100;
-      iterData* dataR = gf->checkRange();
-      gf->bail = 100;
-      iterData* dataG = gf->checkRange();
-      gf->bail = 100;
-      iterData* dataB = gf->checkRange();
-
-      for(int row = 0; row < WIDTH; row++) {
-        for(int col = 0; col < HEIGHT; col++) {
-          iterData* currR = &dataR[row*HEIGHT + col];
-
-          //uint32_t c = dataG[row*(WIDTH) + col].inSet ? 0xfcfbfe : 0x000000;
-          //drawRect(col,row, 1, 1, c, 255);
-
-          drawRect(currR->startCords.real(), currR->startCords.imag(), 1, 1, 0xFFFFFF, (255*currR->pointsVisited.size())/255);
-          
-          for(complex<double> cd : dataB[row*HEIGHT + col].pointsVisited) {
-            drawRect(cd.real(), cd.imag(), 1, 1, 0xedf252, 6);
-          }
-          
-          for(complex<double> cd : dataG[row*HEIGHT + col].pointsVisited) {
-            drawRect(cd.real(), cd.imag(), 1, 1, 0x0c164f, 15);
+          drawRect(floor(xLoc), floor(yLoc), ceil(stepX), ceil(stepY), 0xFFFFFFF, currData->pointsVisited.size());
+          if(currData->inSet) {
+            drawRect(floor(xLoc), floor(yLoc), ceil(stepX), ceil(stepY), 0x0000FF, 0xFF);
           }
         }
       }
-
 }
 
 void GUI::initWindow() {
-
-      double xBound = 2;
-      double yBound = 2;
 
       // retutns zero on success else non-zero
       if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -71,7 +60,7 @@ void GUI::initWindow() {
       SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
       SDL_RenderClear(rend);      
 
-      genFrac gf(WIDTH,HEIGHT);
+      genFrac gf;
       drawFract(&gf);
 
       SDL_Surface *sshot = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);

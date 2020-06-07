@@ -14,13 +14,18 @@ public:
     WIDTH(WIDTH),
     HEIGHT(HEIGHT),
     RESOLUTION(RESOLUTION),
-    running(true)
+    running(true),
+    localXScale(WIDTH/4),
+    localYScale(WIDTH/4)
   { }
   void initWindow();
   const int HEIGHT;
   const int WIDTH;
   const int RESOLUTION;
+  double localXScale;
+  double localYScale;
   bool running;
+  double yBound = 2;
 private:
   SDL_Renderer* rend;
   void drawFract(genFrac* gf);

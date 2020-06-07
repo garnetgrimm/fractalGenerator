@@ -2,38 +2,47 @@
 
 #include "vector"
 #include <complex>
+#include <iostream>
 
 using namespace std;
 
 class iterData {
-    public:
-        iterData():
-            pointsVisited(1) {} 
-        bool inSet;
-        complex<double> startCords = complex<double>(0,0);
+    public: 
+        bool inSet = true;
+        complex<double> startCords;
         vector<complex<double>> pointsVisited;
+};
+
+class chunk {
+    public:
+        chunk(double startX, double startY, double endX, double endY, int detail):
+            startX(startX),
+            startY(startY),
+            endX(endX),
+            endY(endY),
+            detail(detail),
+            stepX((endX-startX)/detail),
+            stepY((endY-startY)/detail)
+        {
+            data = new iterData [(detail+1)*(detail+1)];
+        }
+        const int detail;
+        const double startX;
+        const double startY;
+        const double endX;
+        const double endY;
+        const double stepX;
+        const double stepY;
+        iterData* data;
 };
 
 class genFrac {
     public:
-        int bail = 100;
-        genFrac();
-        genFrac(int width, int height):
-            width(width),
-            height(height)
-        {
-            changeTrueRange(trueXBounds,trueYBounds);
+        int bail = 500;
+        genFrac() {
+            loadChunk(-2,-2,2,2,1000);
         }
-        double yOffset;
-        double xOffset;
+        vector<chunk> chunk_map;
         iterData checkPixel(double x, double y);
-        iterData* checkRange();
-        void changeTrueRange(double x, double y);
-    private:
-        double trueXBounds = 0.5;
-        double trueYBounds = 0.5;
-        double xScale;
-        double yScale;
-        int width;
-        int height;
+        void loadChunk(double startX, double startY, double endX, double endY, int detail);
 };
