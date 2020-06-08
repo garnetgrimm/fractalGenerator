@@ -24,7 +24,7 @@ class chunk {
             stepX((endX-startX)/detail),
             stepY((endY-startY)/detail)
         {
-            data = new iterData [(detail+1)*(detail+1)];
+            data = new iterData [(detail)*(detail+1)];
         }
         const int detail;
         const double startX;
@@ -38,9 +38,9 @@ class chunk {
 
 class genFrac {
     public:
-        int bail = 500;
+        int bail = 10;
         genFrac() {
-            loadChunk(-2,-2,2,2,1000);
+            loadChunk(-2,-2,2,2,500);
         }
         vector<chunk> chunk_map;
         iterData checkPixel(double x, double y);
